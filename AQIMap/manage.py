@@ -13,34 +13,35 @@ def get_aqi():
     from map.aqi import waqi
     from map.models import AqiData
     fetcher = waqi()
-    #刚开启服务器时，检查现存数据库中是不是还没有数据
-    #或是否需要更新数据
+    #Check if there is data in the database
+    #or the data is too old to use
     if len(AqiData.objects.all()) == 0:
-        #说明数据库中还没有保存的天气数据
+        #No weather data saved
         print('no weather data detected!')
+        #load "fake" data to the database
         import json
         aqi_data = json.load(open('aqi.json','r'))
-        #保存到数据库
+        #save to database, then fetch real data
         aqi_data_object = AqiData.init_data(aqi_data, time.time())
         aqi_data = fetcher.get_aqi()
         fetcher.dump('aqi.json')
-        #保存到数据库
+        #save to database
         aqi_data_object = AqiData.init_data(aqi_data, time.time())
         print('new weather data saved')
     else:
         while True:
-            #获取时间
+            #get the last time when data was saved
             aqi_data_object = AqiData.objects.first()
             last_time = aqi_data_object.record_time
             last_day = time.localtime(last_time).tm_yday
             now = time.time()
             now_day = time.localtime(now).tm_yday
             print('time range(min):', (now-last_time)/60)
-            #若时间超过一天或天数不同，则更新之
+            #if time range>24hours or the day number is different -> update it
             if now - last_time >= 60*60*24 or last_day != now_day:
                 print('updating weather...')
                 aqi_data = fetcher.get_aqi()
-                #更新到数据库
+                #save to database
                 aqi_data_object.update(aqi_data, time.time())
                 print('new weather data saved')
             time.sleep(3600)

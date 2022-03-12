@@ -29,7 +29,7 @@ def index(request):
             return '#99004c'
         else:
             return '#7e0023'
-    #获取访问者的IP地址，然后通过geoIp转换为所在城市
+    #get IP of user, use geoip2 to convert IP to geo-position
     ip = request.META.get("HTTP_X_FORWARDED_FOR", "")
     if not ip:
         ip = request.META.get('REMOTE_ADDR', "")
@@ -45,10 +45,10 @@ def index(request):
     except:
         print('INVALID IP')
         lng, lat = 117.2560, 31.8380
-    #获取数据库中保存的天气数据
+    #get weather data in database
     aqi_data_object = AqiData.objects.first()
     aqi_data = aqi_data_object.aqi_data
-    #转换为地图API要求的格式
+    #convert weather data to the format which map API requires
     target_data = []
     for aqi in aqi_data:
         try:
@@ -59,7 +59,7 @@ def index(request):
         except:
             raise
 
-    #发送天气和用户地址
+    #send user's position and weather data to merger
     return render(request, "map/index.html", {'lng': lng,
                                               'lat': lat,
                                               'aqi_data': target_data})

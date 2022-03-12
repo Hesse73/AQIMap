@@ -52,11 +52,11 @@
         var circle;
         {% for item in aqi_data %}
         circle = new AMap.Circle({
-            center: new AMap.LngLat({{ item.lng }}, {{ item.lat }}),  // 圆心位置
-            radius: 25000, // 圆半径
-                fillColor: '{{item.color}}',   // 圆形填充颜色
-                    strokeWeight: 0, // 描边宽度
-                        fillOpacity: 0.8,    //不透明度
+            center: new AMap.LngLat({{ item.lng }}, {{ item.lat }}),
+            radius: 25000,
+                fillColor: '{{item.color}}',
+                    strokeWeight: 0,
+                        fillOpacity: 0.8,
     });
 
         map.add(circle);

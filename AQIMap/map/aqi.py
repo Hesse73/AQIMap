@@ -10,7 +10,7 @@ class waqi():
         #self.city_list = json.load(open('map/majorcity.json', 'r'))
 
     def get_aqi(self):
-        #通过api获取各个城市的数据
+        #use api to get weather data of different city
         self.aqi_data = []
         for city_name in self.city_list:
             data = requests.get('https://api.waqi.info/feed/%s/?token=%s' %
@@ -25,7 +25,7 @@ class waqi():
                 })
                 print('get data in city:', city_name)
             except:
-                #说明城市没有信息
+                #this means there is no weather data in that city
                 print('no weather data in city:', city_name)
         return self.aqi_data
 

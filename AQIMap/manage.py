@@ -18,10 +18,12 @@ def get_aqi():
     if len(AqiData.objects.all()) == 0:
         #说明数据库中还没有保存的天气数据
         print('no weather data detected!')
+        import json
+        aqi_data = json.load(open('aqi.json','r'))
+        #保存到数据库
+        aqi_data_object = AqiData.init_data(aqi_data, time.time())
         aqi_data = fetcher.get_aqi()
         fetcher.dump('aqi.json')
-        #import json
-        #aqi_data = json.load(open('aqi.json','r'))
         #保存到数据库
         aqi_data_object = AqiData.init_data(aqi_data, time.time())
         print('new weather data saved')
@@ -46,7 +48,7 @@ def get_aqi():
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PMMap.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AQIMap.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

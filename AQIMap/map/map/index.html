@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>AQI地图</title>
+    <style>
+        html,
+        body,
+        #container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'map/style.css' %}" />
+</head>
+
+<body>
+    <div id="container"></div>
+    <div class="input-card" style="width: auto;">
+        <b>AQI指数：</b>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="background:#00e400;">优</td>
+                    <td style="background:#ff0;">良</td>
+                    <td style="background:#ff7e00;">轻度污染</td>
+                    <td style="background:#f00;">中度污染</td>
+                    <td style="background:#99004c;">重度污染</td>
+                    <td style="background:#7e0023;">严重污染</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: '0ab48b630be0c1befdafbb2e06fc9636',
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=2.0&key=f7d222c243513369371412e49e014533"></script>
+    <script>
+        var map = new AMap.Map("container", {
+            center: [{{ lng }}, {{ lat }}],
+        zoom: 6
+    });
+        var circle;
+        {% for item in aqi_data %}
+        circle = new AMap.Circle({
+            center: new AMap.LngLat({{ item.lng }}, {{ item.lat }}),  // 圆心位置
+            radius: 25000, // 圆半径
+                fillColor: '{{item.color}}',   // 圆形填充颜色
+                    strokeWeight: 0, // 描边宽度
+                        fillOpacity: 0.8,    //不透明度
+    });
+
+        map.add(circle);
+        {% endfor %}
+    </script>
+</body>
+
+</html>

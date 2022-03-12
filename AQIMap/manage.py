@@ -20,7 +20,7 @@ def get_aqi():
         print('no weather data detected!')
         #load "fake" data to the database
         import json
-        aqi_data = json.load(open('aqi.json','r'))
+        aqi_data = json.load(open('aqi.json', 'r'))
         #save to database, then fetch real data
         aqi_data_object = AqiData.init_data(aqi_data, time.time())
         aqi_data = fetcher.get_aqi()

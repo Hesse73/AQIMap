@@ -1,6 +1,7 @@
 import json
 import requests
 
+
 class waqi():
 
     token = 'fa87be13d4dfae9765a4f22ba87e5bee2b2b5657'
@@ -14,7 +15,7 @@ class waqi():
         self.aqi_data = []
         for city_name in self.city_list:
             data = requests.get('https://api.waqi.info/feed/%s/?token=%s' %
-                                (city_name.replace("'",""), self.token))
+                                (city_name.replace("'", ""), self.token))
             data = data.content.decode('utf-8')
             data = json.loads(data)
             try:
@@ -31,4 +32,3 @@ class waqi():
 
     def dump(self, filename='aqi.json'):
         json.dump(self.aqi_data, open(filename, 'w'))
-        

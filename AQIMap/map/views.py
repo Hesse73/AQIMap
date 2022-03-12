@@ -19,11 +19,11 @@ def index(request):
         """
         if score < 50:
             return '#00e400'
-        elif score<100:
+        elif score < 100:
             return '#ff0'
-        elif score<150:
+        elif score < 150:
             return '#ff7e00'
-        elif score<200:
+        elif score < 200:
             return '#ff0'
         elif score < 300:
             return '#99004c'

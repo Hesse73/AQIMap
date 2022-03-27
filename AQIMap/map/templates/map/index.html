@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="zh">
 
 <head>
     <meta charset="utf-8">
@@ -23,17 +23,18 @@
 <body>
     <div id="container"></div>
     <div class="input-card" style="width: auto;">
-        <b>AQI指数：</b>
+        <!--<strong>AQI指数：</strong>-->
         <table>
+            <caption>AQI指数表</caption>
             <tbody>
-                <tr>
+                <th>
                     <td style="background:#00e400;">优</td>
                     <td style="background:#ff0;">良</td>
                     <td style="background:#ff7e00;">轻度污染</td>
                     <td style="background:#f00;">中度污染</td>
                     <td style="background:#99004c;">重度污染</td>
                     <td style="background:#7e0023;">严重污染</td>
-                </tr>
+                </th>
             </tbody>
         </table>
     </div>
@@ -52,11 +53,11 @@
         var circle;
         {% for item in aqi_data %}
         circle = new AMap.Circle({
-            center: new AMap.LngLat({{ item.lng }}, {{ item.lat }}),
-            radius: 25000,
-                fillColor: '{{item.color}}',
-                    strokeWeight: 0,
-                        fillOpacity: 0.8,
+            center: new AMap.LngLat({{ item.lng }}, {{ item.lat }}),  // 圆心位置
+            radius: 25000, // 圆半径
+                fillColor: '{{item.color}}',   // 圆形填充颜色
+                    strokeWeight: 0, // 描边宽度
+                        fillOpacity: 0.8,    //不透明度
     });
 
         map.add(circle);
